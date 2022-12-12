@@ -9,7 +9,7 @@ class login extends Dbh{
         $stmt->execute();
         $result = $stmt->get_result();
         $row = $result->fetch_assoc();
-        var_dump($row);
+
 
 
         if ($result->num_rows > 0){

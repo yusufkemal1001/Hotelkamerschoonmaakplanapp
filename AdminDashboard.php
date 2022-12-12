@@ -49,16 +49,25 @@ if (isset($_SESSION["id"])){
 
 </div>
     <div class="main text-center m-auto">
+        <?php if ($_SESSION['role']==1){?>
         <div class="grid grid-cols-2 p-5">
             <a href="Kamers.php" class="text-3xl p-5 m-5" style="height: 200px; display: flex;align-items: center;justify-content: center; background-color: cadetblue;">
                 Kamers
             </a>
-            <a href="Meldingen.php p-5" class="text-3xl p-5 m-5" style="height: 200px; display: flex;align-items: center;justify-content: center; background-color: cadetblue;">
-                Meldingen
+
+            <a href="accounts.php" class="text-3xl p-5 m-5" style="height: 200px; display: flex;align-items: center;justify-content: center; background-color: cadetblue;">
+                Accounts
             </a>
 
         </div>
-        <div>
+        <?php }else{?>
+            <div class=" p-5">
+                <a href="Kamers.php" class="text-3xl p-5 m-5" style="height: 200px; display: flex;align-items: center;justify-content: center; background-color: cadetblue;">
+                    Kamers
+                </a>
+            </div>
+        <?php }?>
+        <div class="meldingen">
 
         </div>
     </div>
