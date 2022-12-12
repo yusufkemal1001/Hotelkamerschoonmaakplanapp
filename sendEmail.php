@@ -5,38 +5,46 @@ require __DIR__ . "/vendor/autoload.php";
 use PHPMailer\PHPMailer\PHPMailer;
 
 
-function guidv4($data = null)
-{
-    // Generate 16 bytes (128 bits) of random data or use the data passed into the function.
-    $data = $data ?? random_bytes(16);
-    assert(strlen($data) == 16);
-
-    // Set version to 0100
-    $data[6] = chr(ord($data[6]) & 0x0f | 0x40);
-    // Set bits 6-7 to 10
-    $data[8] = chr(ord($data[8]) & 0x3f | 0x80);
-
-    // Output the 36 character UUID.
-    return vsprintf('%s%s-%s-%s-%s-%s%s%s', str_split(bin2hex($data), 4));
+function randomPassword() {
+    $alphabet = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890';
+    $pass = array(); //remember to declare $pass as an array
+    $alphaLength = strlen($alphabet) - 1; //put the length -1 in cache
+    for ($i = 0; $i < 8; $i++) {
+        $n = rand(0, $alphaLength);
+        $pass[] = $alphabet[$n];
+    }
+    return implode($pass); //turn the array into a string
 }
 
 //for ($i=0; $i< as $email){
 //    $sql = "insert into teams(naam,email,speurtocht_id,uuid)values('$_POST[group]','$email','$_GET[id]','$uuid');";
 //}
-foreach ($_POST['groups'] as $group) {
 
 
-    $uuid = guidv4();
-    $sql = "insert into teams(naam,email,speurtocht_id,uuid)values('" . $group['group'] . "','" . $group['email'] . "','" . $_GET['id'] . "','$uuid');";
+foreach ($_POST['gebruiker'] as $gebruiker) {
+
+    $select = mysqli_query($conn, "SELECT Email FROM `User` WHERE `Email` = '".$gebruiker['email']."'") or exit(mysqli_error($conn));
+    if(mysqli_num_rows($select)) {
+        header("location:accounts.php?existingEmail");
+        die();
+
+    }else{
+
+
+    $pw = randomPassword();
+        $gebruikerNaam = $gebruiker['naam'];
+        $gebruikerEmail = $gebruiker['email'];
+        if (!filter_var($gebruikerEmail, FILTER_VALIDATE_EMAIL)) {
+            header("location:accounts.php?wrongEmail");
+            die();
+
+        }else{
+    $sql = "insert into User(Email,Wachtwoord,Naam,Rol)values('" . $gebruiker['email'] . "','" . $pw . "','" . $gebruiker['naam'] . "','" . $gebruiker['rol'] . "');";
     if (mysqli_query($conn, $sql)) {
 
+        
 
-        $groupName = $group['group'];
-        $groupEmail = $group['email'];
-        if (!filter_var($groupEmail, FILTER_VALIDATE_EMAIL)) {
-            echo "excuse me good sir/madam/them/they/attack helicopter, could you please check your email if its correct? i couldn't find an email 'I am good rooster '-Hangman 2022 Top Gun Mav";// invalid emailaddress
-            die();
-        }
+
         $mail = new PHPMailer('true');
 
         $mail->isSMTP();
@@ -48,20 +56,20 @@ foreach ($_POST['groups'] as $group) {
 
         $mail->setFrom("yusufkemal02@gmail.com", "Yusuf");
         //$mail->addAddress("".$group['email'].", ".$group['group']."");
-        $mail->addAddress("$groupEmail", "$groupName");
+        $mail->addAddress("$gebruikerEmail", "$gebruikerNaam");
 
-        $mail->Subject = "Meedoen aan de speurtocht ";
+        $mail->Subject = "Nieuwe account";
         $mail->isHTML();
         $mail->Body = "
-     <h3><strong>Uw uitnodiging voor de Speurtocht!</strong></h3>
+     <h3><strong>Uw nieuwe account</strong></h3>
      <p>&nbsp;</p>
      
-     Klik <strong><a href='http://127.0.0.1:8080/quiz.php?id=$uuid&speurtocht_id=$_GET[id]'>hier</a></strong> om mee te doen aan de speurtocht.
-     <p>&nbsp;</p>
-     
-     <p>Veel plezier en we hopen dat u een goeie tijd heeft!</p>
-     <p>&nbsp;</p>
-     <p>Scrumgroep 2</p>
+     Klik <strong><a href='http://127.0.0.1:8080/'>hier</a></strong> om in te loggen.
+     <p>Uw inloggegevens zijn:</p><br>
+     <p>E-mail : '$gebruikerEmail'</p> 
+     <p>Wachtwoord : '$pw'</p>
+     <p>Met vriendelijk groet,&nbsp;</p>
+     <p>Hotelkamerschoonmaakapp</p>
     
     
     
@@ -79,10 +87,11 @@ foreach ($_POST['groups'] as $group) {
 
         $mail->send();
         session_start();
-        $_SESSION['active_speurtocht_id']=$_GET['id'];
-        header("location:admin.speurtocht.php?id=".$_GET['id']);
 
+        header("location:accounts.php?newAccount");
+        }
 
+    }
     }
 }
 ?>
