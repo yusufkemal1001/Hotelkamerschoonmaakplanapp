@@ -14,16 +14,21 @@ require_once "loginClass.php";
 </head>
 <body>
 <div class="">
-    <div class="text-4xl text-center" style=" border-bottom: solid 1px; padding-right:10px;margin-top: 10px;  height: 60px;">
-        <a href="AdminDashboard.php" ><div class="text-base   " style="margin-left: 10px;float: left;height: 40px;
+    <div class="text-4xl text-center"
+         style=" border-bottom: solid 1px; padding-right:10px;margin-top: 10px;  height: 60px;">
+        <a href="AdminDashboard.php">
+            <div class="text-base   " style="margin-left: 10px;float: left;height: 40px;
     display: flex;
-    align-items: center;"><i class="m-2 fa-solid fa-arrow-left"></i>Terug</div></a>
-        <div style="margin-right: 80px;" >
-            <?php if ($_SESSION['role']==1){
+    align-items: center;"><i class="m-2 fa-solid fa-arrow-left"></i>Terug
+            </div>
+        </a>
+        <div style="margin-right: 80px;">
+            <?php if ($_SESSION['role'] == 1) {
                 echo "Super Beheerder Admin-Panel";
-            }if ($_SESSION['role']==2){
+            }
+            if ($_SESSION['role'] == 2) {
                 echo "Beheerder Admin-Panel";
-            }?>
+            } ?>
         </div>
     </div>
     <div class="container m-auto">
@@ -32,29 +37,39 @@ require_once "loginClass.php";
 
         </div>
         <?php
-        if (isset($_GET['userDeleted'])){?>
+        if (isset($_GET['userDeleted'])) {
+            ?>
 
             <div class=" text-md m-auto mt-5 rounded-md text-center" style="color: red; display: flex;
     justify-content: center;
-    align-items: center;"><i class="fa-solid fa-circle-exclamation m-2"></i>User verwijderd</div>
+    align-items: center;"><i class="fa-solid fa-circle-exclamation m-2"></i>Account verwijderd
+            </div>
         <?php }
-        if (isset($_GET['wrongEmail'])){?>
+        if (isset($_GET['wrongEmail'])) {
+            ?>
 
             <div class=" text-md m-auto mt-5 rounded-md text-center" style="color: red; display: flex;
     justify-content: center;
-    align-items: center;"><i class="fa-solid fa-circle-exclamation m-2"></i>Deze e-mail bestaat niet. Voer een geldige e-mail in</div>
+    align-items: center;"><i class="fa-solid fa-circle-exclamation m-2"></i>Deze e-mail bestaat niet. Voer een geldige
+                e-mail in
+            </div>
         <?php }
-        if (isset($_GET['newAccount'])){?>
+        if (isset($_GET['newAccount'])) {
+            ?>
 
             <div class=" text-md m-auto mt-5 rounded-md text-center" style="color: green; display: flex;
     justify-content: center;
-    align-items: center;"><i class="fa-solid fa-circle-exclamation m-2"></i>Account aangemaakt!</div>
+    align-items: center;"><i class="fa-solid fa-circle-exclamation m-2"></i>Account aangemaakt!
+            </div>
         <?php }
-        if (isset($_GET['existingEmail'])){?>
+        if (isset($_GET['existingEmail'])) {
+            ?>
 
             <div class=" text-md m-auto mt-5 rounded-md text-center" style="color: red; display: flex;
     justify-content: center;
-    align-items: center;"><i class="fa-solid fa-circle-exclamation m-2"></i>Deze e-mail is al in gebruik. Voer een andere e-mail in</div>
+    align-items: center;"><i class="fa-solid fa-circle-exclamation m-2"></i>Deze e-mail is al in gebruik. Voer een
+                andere e-mail in
+            </div>
         <?php }
         ?>
         <div class="grid grid-cols-2 m-5">

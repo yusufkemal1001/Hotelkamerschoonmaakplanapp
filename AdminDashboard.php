@@ -12,6 +12,9 @@ if (isset($_SESSION["id"])){
 }else{
     header("location: index.php");
 }
+if ($_SESSION['role'] == 3){
+    header("Location:CleanerDashboard.php");
+}
 ?>
 
 
@@ -49,13 +52,18 @@ if (isset($_SESSION["id"])){
 
 </div>
     <div class="main text-center m-auto">
+        <?php if (isset($_GET['KamerGekoppeld'])){?>
+            <div class=" text-md m-auto mt-5 rounded-md text-center" style="color: green; display: flex;
+    justify-content: center;
+    align-items: center;"><i class="fa-solid fa-circle-exclamation m-2"></i>Kamer is gekoppeld!</div>
+       <?php } ?>
         <?php if ($_SESSION['role']==1){?>
-        <div class="grid grid-cols-2 p-5">
-            <a href="Kamers.php" class="text-3xl p-5 m-5" style="height: 200px; display: flex;align-items: center;justify-content: center; background-color: cadetblue;">
+        <div class="grid grid-cols-2 ">
+            <a href="Kamers.php" class="text-3xl p-5 m-2" style="height: 200px; display: flex;align-items: center;justify-content: center;border: 1px solid; border-radius: 10px;">
                 Kamers
             </a>
 
-            <a href="accounts.php" class="text-3xl p-5 m-5" style="height: 200px; display: flex;align-items: center;justify-content: center; background-color: cadetblue;">
+            <a href="accounts.php" class="text-3xl p-5 m-2" style="height: 200px; display: flex;align-items: center;justify-content: center; border: 1px solid; border-radius: 10px;">
                 Accounts
             </a>
 
@@ -68,7 +76,7 @@ if (isset($_SESSION["id"])){
             </div>
         <?php }?>
         <div class="meldingen">
-
+            <?php include "lastMeldingen.php"; ?>
         </div>
     </div>
 

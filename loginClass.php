@@ -12,10 +12,11 @@ class login extends Dbh{
 
 
 
-        if ($result->num_rows > 0){
-            if ($password==$row["Wachtwoord"]){
+        if ($result->num_rows >= 1){
+            if (password_verify($password, $row['Wachtwoord'])){
                 $this->id=$row["UserId"];
                 $this->role=$row["Rol"];
+
                 return 1;
             }
             else{

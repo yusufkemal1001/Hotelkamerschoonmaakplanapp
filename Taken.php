@@ -20,7 +20,16 @@ $sum = $resultCount['SUM(Duur)'];
 
 $hours = floor($sum / 60);
 $minutes = $sum % 60;
-$newMinutes = $minutes - ($minutes % 15)
+$newMinutes = $minutes - ($minutes % 5);
+
+$seeRoom = "select * from Opdrachten where KamerId=$_GET[KamerId] and Datum = CURDATE() and UserId is not null ";
+$resultRoom = mysqli_query($conn,$seeRoom);
+if (mysqli_num_rows($resultRoom) > 0) { ?>
+    <div class=" text-md m-auto mt-5 rounded-md text-center"
+         style="color: goldenrod; display: flex; justify-content: center; align-items: center;">
+        <i class="fa-solid fa-circle-exclamation m-2"></i>Deze kamer is al gekoppeld!
+    </div>
+<?php }
 
 ?>
 
@@ -40,7 +49,7 @@ $newMinutes = $minutes - ($minutes % 15)
         <div class="text-center m-5">
             Totale duur is <?php echo $hours;  ?> uur <?php if ($newMinutes!=0){ echo "en ".$newMinutes." minuten";}?>
         </div>
-        <button class="flex justify-center mb-5 m-auto" ><div class="text-center " style="height: 50px; width: 40%;border-radius: 10px;color: #000; display: flex;justify-content: center;align-items: center;"><i class="fa-regular fa-floppy-disk pr-2"></i>Opslaan</div></button>
+        <button class="flex justify-center mb-5  m-auto " style="background-color: lightgreen; border:1px solid; border-radius: 10px; color: black; padding: 10px; " ><div class="text-center " style="height: 40px; width: 230px; display: flex;justify-content: center;align-items: center;"><i class="fa-regular fa-floppy-disk pr-2"></i>Opslaan</div></button>
 
     </div>
     </form>

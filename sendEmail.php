@@ -16,6 +16,9 @@ function randomPassword() {
     return implode($pass); //turn the array into a string
 }
 
+
+
+
 //for ($i=0; $i< as $email){
 //    $sql = "insert into teams(naam,email,speurtocht_id,uuid)values('$_POST[group]','$email','$_GET[id]','$uuid');";
 //}
@@ -39,22 +42,23 @@ foreach ($_POST['gebruiker'] as $gebruiker) {
             die();
 
         }else{
-    $sql = "insert into User(Email,Wachtwoord,Naam,Rol)values('" . $gebruiker['email'] . "','" . $pw . "','" . $gebruiker['naam'] . "','" . $gebruiker['rol'] . "');";
+            $password_enq = password_hash($pw, PASSWORD_DEFAULT);
+    $sql = "insert into User(Email,Wachtwoord,Naam,Rol)values('" . $gebruiker['email'] . "','" . $password_enq . "','" . $gebruiker['naam'] . "','" . $gebruiker['rol'] . "');";
     if (mysqli_query($conn, $sql)) {
-
-        
-
+         $superSql = "select * from User where rol=1";
+         $superRow = mysqli_query($conn,$superSql);
+         $superResult = mysqli_fetch_assoc($superRow);
 
         $mail = new PHPMailer('true');
 
         $mail->isSMTP();
-        $mail->Host = 'smtp.mailtrap.io';
+        $mail->Host = 'mail.antagonist.nl';
         $mail->SMTPAuth = true;
-        $mail->Port = 2525;
-        $mail->Username = '5baa4c8a8ff55f';
-        $mail->Password = 'c91b452b96c05a';
+        $mail->Port = 587;
+        $mail->Username = 'yusuf@lesonline.nu';
+        $mail->Password = '8xfYXNZ7';
 
-        $mail->setFrom("yusufkemal02@gmail.com", "Yusuf");
+        $mail->setFrom("$superResult[Email]", "$superResult[Naam]");
         //$mail->addAddress("".$group['email'].", ".$group['group']."");
         $mail->addAddress("$gebruikerEmail", "$gebruikerNaam");
 
@@ -62,10 +66,8 @@ foreach ($_POST['gebruiker'] as $gebruiker) {
         $mail->isHTML();
         $mail->Body = "
      <h3><strong>Uw nieuwe account</strong></h3>
-     <p>&nbsp;</p>
-     
      Klik <strong><a href='http://127.0.0.1:8080/'>hier</a></strong> om in te loggen.
-     <p>Uw inloggegevens zijn:</p><br>
+     <p>Uw inloggegevens zijn:</p>
      <p>E-mail : '$gebruikerEmail'</p> 
      <p>Wachtwoord : '$pw'</p>
      <p>Met vriendelijk groet,&nbsp;</p>
@@ -74,16 +76,7 @@ foreach ($_POST['gebruiker'] as $gebruiker) {
     
     
     ";
-        /*$checkMail = new VerifyEmail();
 
-        if($checkMail->check($groupEmail)){
-            echo 'Email &lt;'.$groupEmail.'&gt; is exist!';
-            $mail->send();
-        }elseif(verifyEmail::validate($groupEmail)){
-            echo 'Email &lt;'.$groupEmail.'&gt; is valid, but not exist!';
-        }else{
-            echo 'Email &lt;'.$groupEmail.'&gt; is not valid and not exist!';
-        }*/
 
         $mail->send();
         session_start();

@@ -1,10 +1,6 @@
 <?php
 include 'dbcon.php';
 
-
-
-
-
 $sql = "insert into Kamers(Naam)values('Nieuwe Kamer');";
 
 

@@ -9,11 +9,11 @@
     E-mail:<input type="email" name="gebruiker[0][email]" class=" m-5" style="border: 1px solid;border-radius: 5px;">
     <div class="flex justify-around ">
         <div>
-            <input type="radio" id="beheerder" name="gebruiker[0][rol]" value="2">
+            <input type="radio" id="beheerder" name="gebruiker[0][rol]" required value="2">
             <label for="beheerder">Beheerder</label><br>
         </div>
         <div>
-            <input type="radio" id="schoonmaakster" name="gebruiker[0][rol]" value="3">
+            <input type="radio" id="schoonmaakster" name="gebruiker[0][rol]" required value="3">
             <label for="schoonmaakster">Schoonmaakster</label><br>
         </div>
     </div>

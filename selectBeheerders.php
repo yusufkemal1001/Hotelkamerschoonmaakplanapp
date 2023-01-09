@@ -28,7 +28,7 @@ if ($result->num_rows > 0) {
                             <div class="text-center">
                             <?php echo $row["Naam"];?>
                                 <div  style="float: right">
-                                    <a href="deleteUser.php?UserId=<?php echo $row['UserId'] ?>"><i class="mt-2 fa-regular fa-trash-can"></i></a>
+                                    <a onclick="return confirm('Wilt u deze account verwijderen?')" href="deleteUser.php?UserId=<?php echo $row['UserId'] ?>"><i class="mt-2 fa-regular fa-trash-can"></i></a>
                                 </div>
                             </div>
 
