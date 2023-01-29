@@ -1,5 +1,11 @@
 <?php
 require_once "loginClass.php";
+if ($_SESSION['role']==3){
+    header("location:CleanerDashboard.php");
+}
+if ($_SESSION['role']==2){
+    header("location:AdminDashboard.php");
+}
 ?>
 <!doctype html>
 <html lang="en">
@@ -80,7 +86,7 @@ require_once "loginClass.php";
                 </div>
             </div>
             <div class="text-2xl text-center">
-                <b>Schoonmaaksters</b>
+                <b>Schoonmaak(st)ers</b>
                 <div class="text-md">
                     <?php include "selectSchoonmaaksters.php"; ?>
                 </div>

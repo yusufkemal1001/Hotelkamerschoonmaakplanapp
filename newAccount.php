@@ -14,7 +14,7 @@
         </div>
         <div>
             <input type="radio" id="schoonmaakster" name="gebruiker[0][rol]" required value="3">
-            <label for="schoonmaakster">Schoonmaakster</label><br>
+            <label for="schoonmaakster">Schoonmaak(st)er</label><br>
         </div>
     </div>
     <button class="bg-blue-300 p-2 rounded-md m-5" ><div class="text-center " style=" border-radius: 10px;color: #000; align-items: center;">Account aanmaken</div></button>

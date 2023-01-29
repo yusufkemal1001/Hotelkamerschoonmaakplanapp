@@ -49,7 +49,7 @@ if ($result->num_rows > 0) {
 
     width: 80%;
     position: relative;">
-        <div class="text-center text-white text-2xl"><?php echo "Er zijn geen schoonmaaksters";?></div>
+        <div class="text-center text-white text-2xl"><?php echo "Er zijn geen schoonmaak(st)ers";?></div>
     </div>
     <?php
 }

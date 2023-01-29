@@ -49,8 +49,19 @@ if (mysqli_num_rows($resultRoom) > 0) { ?>
         <div class="text-center m-5">
             Totale duur is <?php echo $hours;  ?> uur <?php if ($newMinutes!=0){ echo "en ".$newMinutes." minuten";}?>
         </div>
-        <button class="flex justify-center mb-5  m-auto " style="background-color: lightgreen; border:1px solid; border-radius: 10px; color: black; padding: 10px; " ><div class="text-center " style="height: 40px; width: 230px; display: flex;justify-content: center;align-items: center;"><i class="fa-regular fa-floppy-disk pr-2"></i>Opslaan</div></button>
+        <div class="flex justify-evenly mb-10 m-auto w-3/5">
+            <button name="action" class="bg-sky-800" value="opslaan" style="  border:1px solid; border-radius: 10px; color: black; padding: 10px; " ><div class="text-center " style="height: 40px; width: 250px; display: flex;justify-content: center;align-items: center;color:white; "><i class="fa-regular fa-floppy-disk pr-2"></i>Opslaan</div></button>
+            <?php
 
+                $sql = "select * from Opdrachten where KamerId = $_GET[KamerId] and Datum = CURDATE() and UserId is not NULL";
+                $result1 = mysqli_query($conn, $sql);
+                if (mysqli_num_rows($result1) == 0) { ?>
+                    <button name="action" value="schoonmaaksterKoppelen"  style="background-color: lightgreen; border:1px solid; border-radius: 10px; color: black; padding: 10px; " ><div class="text-center " style="height: 40px; width: 250px; display: flex;justify-content: center; align-items: center;">Schoonmaak(st)er Koppelen <i class="m-2 fa-solid fa-arrow-right"></i></div></button>
+                <?php }
+
+            ?>
+
+        </div>
     </div>
     </form>
 </div>

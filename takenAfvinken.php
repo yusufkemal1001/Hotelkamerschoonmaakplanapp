@@ -2,18 +2,10 @@
 include "dbcon.php";
 require "loginClass.php";
 
-// Generate a unique ID
-$unique_id = uniqid();
-
-// Set the session variable to the unique ID
-$_SESSION['taakSession'] = $unique_id;
-
-
-
 if (!isset($_GET['KamerId'])){
     header("location:CleanerDashboard.php");
 }
-$sqlToGetName = "Select * from Kamers where KamerId = $_GET[KamerId]; ";
+$sqlToGetName = "Select * from Kamers where KamerId = '$_GET[KamerId]'; ";
 $resultKamer = mysqli_query($conn,$sqlToGetName);
 $resultname = mysqli_fetch_assoc($resultKamer);
 
@@ -22,7 +14,7 @@ if (!isset($_SESSION['id'])){
     header("location:index.php");
 }
 
-$checkIfCompleted = "select * from opdrachten where OpdrachtId = $_GET[Opdracht] and KamerId = $_GET[KamerId]";
+$checkIfCompleted = "select * from Opdrachten where OpdrachtId = '$_GET[Opdracht]' and KamerId = '$_GET[KamerId]'";
 $resultCompleted = mysqli_query($conn,$checkIfCompleted);
 $rowCompleted = mysqli_fetch_assoc($resultCompleted);
 
@@ -57,7 +49,7 @@ if (!isset($_GET['Opdracht'])){
     <div class=" text-center m-5 ">
         <div class="text-2xl flex justify-center">
             <div class="w-4/5 text-white">
-                <b>Schoonmaakster Taken Afvinken</b>
+                <b>Schoonmaak(st)er Taken Afvinken</b>
 
             </div>
 
@@ -77,7 +69,7 @@ if (!isset($_GET['Opdracht'])){
 
             // Check connection
 
-            $sql = "select Taken.Taak, Taken_Van_Kamer.`Duur`,Taken_Van_Opdrachten.NieuwDuur,Taken_Van_Opdrachten.TaakOpdrachtId, Taken_Van_Opdrachten.Afgerond from Taken_Van_Opdrachten Inner join Taken on Taken.TaakId=Taken_Van_Opdrachten.TaakId inner join Taken_Van_Kamer on Taken_Van_Kamer.TaakId = Taken_Van_Opdrachten.TaakId where Taken_Van_Opdrachten.OpdrachtId = $_GET[Opdracht] and Taken_Van_Kamer.KamerId = $_GET[KamerId]";
+            $sql = "select Taken.Taak, Taken_Van_Kamer.`Duur`,Taken_Van_Opdrachten.NieuwDuur,Taken_Van_Opdrachten.TaakOpdrachtId, Taken_Van_Opdrachten.Afgerond from Taken_Van_Opdrachten Inner join Taken on Taken.TaakId=Taken_Van_Opdrachten.TaakId inner join Taken_Van_Kamer on Taken_Van_Kamer.TaakId = Taken_Van_Opdrachten.TaakId where Taken_Van_Opdrachten.OpdrachtId = '$_GET[Opdracht]' and Taken_Van_Kamer.KamerId = '$_GET[KamerId]';";
 
 
             $result = mysqli_query($conn, $sql);

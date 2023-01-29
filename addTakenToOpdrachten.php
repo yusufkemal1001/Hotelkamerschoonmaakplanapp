@@ -6,7 +6,16 @@ if (isset($_POST['submit'])){
     $startTime = $_POST['start-time'];
     $endTime = $_POST['endTime'];
     echo "$kamerId  $startTime $endTime";
-    $sql = "Insert Into Opdrachten(KamerId,Datum,StartTijd,VerwachtteEindtijd) VALUES ('$kamerId',current_date ,'$startTime','$endTime');";
+    $selectUser = "select * from User where Rol != 3";
+    $array = array();
+    foreach (mysqli_query($conn,$selectUser) as $row){
+
+        $array[] = $row['UserId'];
+    }
+
+    $arrayToDb = serialize($array);
+    $sql = "Insert Into Opdrachten(KamerId,Datum,StartTijd,VerwachtteEindtijd,Notificatie) VALUES ('$kamerId',current_date ,'$startTime','$endTime','$arrayToDb');";
+
 
 
     if (mysqli_query($conn,$sql)){
@@ -15,7 +24,7 @@ if (isset($_POST['submit'])){
     }
 
 }else{
-    echo "fuck";
+    echo "Een fout is opgetreden.";
 }
 
 

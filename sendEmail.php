@@ -66,7 +66,7 @@ foreach ($_POST['gebruiker'] as $gebruiker) {
         $mail->isHTML();
         $mail->Body = "
      <h3><strong>Uw nieuwe account</strong></h3>
-     Klik <strong><a href='http://127.0.0.1:8080/'>hier</a></strong> om in te loggen.
+     Klik <strong><a href='https://yusuf.lesonline.nu/Hotelkamerschoonmaakplanapp/index.php'>hier</a></strong> om in te loggen.
      <p>Uw inloggegevens zijn:</p>
      <p>E-mail : '$gebruikerEmail'</p> 
      <p>Wachtwoord : '$pw'</p>

@@ -98,7 +98,7 @@ if (mysqli_num_rows($Count)<1){
         </div>
         <button class="flex m-auto p-2 rounded-md" <?php if (isset($_GET['OpdrachtId'])) { ?> disabled <?php } ?>
                 style="background-color: #78A300; color: white" type="submit"
-                name="submit">Beschikbare schoonmaaksters zien
+                name="submit">Beschikbare schoonmaak(st)ers zien
         </button>
     </form>
 </div>

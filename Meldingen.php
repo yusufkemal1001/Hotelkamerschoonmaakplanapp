@@ -66,7 +66,7 @@ include "dbcon.php";
             <a href="SchoonmaaksterKoppelen.php?KamerId=<?php echo $_GET['KamerId']; ?>">
                 <div class="text-base   " style="margin-left: 10px;float: right;height: 40px;
     display: flex;
-    align-items: center;">Schoonmaakster Koppelen<i class="m-2 fa-solid fa-arrow-right"></i></div>
+    align-items: center;">Schoonmaak(st)er Koppelen<i class="m-2 fa-solid fa-arrow-right"></i></div>
             </a>
             <?php
         }

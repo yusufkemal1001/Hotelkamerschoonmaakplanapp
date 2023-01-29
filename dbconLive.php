@@ -1,8 +1,8 @@
 <?php
 $servername = "localhost";
-$username = "root";
-$password = "root";
-$dbname = "Hotelkamerschoonmaakplanapp";
+$username = "deb85590_yusuf";
+$password = "8xfYXNZ7";
+$dbname = "deb85590_yusuf";
 
 // Create connection
 $conn = new mysqli($servername, $username, $password, $dbname);

@@ -37,7 +37,7 @@ if ($result->num_rows > 0) {
         $restEnd = substr($endTime, 0, -3);
         //$currentTime = date('H:i' , $Time);
 
-        if ($currentTime >= $startTime) {
+        if ($currentTime > $startTime) {
 
 
             ?>
@@ -126,7 +126,6 @@ if ($result->num_rows > 0) {
                                 echo 'Nog ' . $difference->format('%H:%I') . ' om deze kamer schoon te maken';
                                 //                                    $difference = $restStart->diff($currentTime);
                                 //                                    echo $difference->format('%H:%i');
-
                                 ?>
                             </div>
 

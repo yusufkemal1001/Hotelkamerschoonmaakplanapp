@@ -2,13 +2,14 @@
 include "dbcon.php";
 require_once 'loginClass.php';
 
-$sql = "select * from Opdrachten where Eindtijd is Not Null order by OpdrachtId desc LIMIT 5 ";
-
+$sql = "select OpdrachtId,UserId,KamerId,Starttijd,Eindtijd,VerwachtteEindtijd,DATE_FORMAT(Datum,'%d-%m-%Y') as Datum,Opmerking from Opdrachten where Eindtijd is Not Null order by OpdrachtId  desc LIMIT 5 ";
+//$sql1 = "select OpdrachtId,UserId,KamerId,Starttijd,Eindtijd,VerwachtteEindtijd,DATE_FORMAT(Datum,'%d-%m-%Y') as Datum,Opmerking from Opdrachten where Eindtijd is Not Null and Datum = CURDATE() and Eindtijd> CURTIME() - interval 15 minute order by OpdrachtId  desc  ";
 //if (!isset($_SESSION['id'])){
 //    header("location:index.php");
 //}else{
 //
 //}
+
 $select = new Select();
 if (isset($_SESSION["id"])){
     $userid = $select->selectUserById($_SESSION['id']);
@@ -32,7 +33,7 @@ if ($_SESSION['role'] == 3){
     <link href="https://fonts.googleapis.com/css?family=Roboto:300,400&display=swap" rel="stylesheet">
 
     <link rel="stylesheet" href="css-table-17/fonts/icomoon/style.css">
-
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <link rel="stylesheet" href="css-table-17/css/owl.carousel.min.css">
     <script src="https://kit.fontawesome.com/a5e31d35c1.js" crossorigin="anonymous"></script>
     <!-- Bootstrap CSS -->
@@ -43,33 +44,49 @@ if ($_SESSION['role'] == 3){
 
     <title>Table #7</title>
 </head>
-<body>
+<body onload="doRefresh()">
 
 
 
 <div class=" text-center mt-5">
     <div class="text-2xl text-center">
-        <a href="allMeldingen.php">
+
         Meldingen
-        </a>
+
     </div>
-
-
 
 </div>
 
-<div class="container">
-
+<div id="container" class="container">
+<!--    --><?php
+//    foreach (mysqli_query($conn,$sql1) as $lastMelding){
+//        $newKamerMelding="select Naam from Kamers where KamerId=$lastMelding[KamerId] ";
+//        $resultNewMelding= mysqli_query($conn,$newKamerMelding);
+//        $rowNewMelding = mysqli_fetch_assoc($resultNewMelding);?>
+<!--        <div class="flex justify-center">-->
+<!--            <div class=" text-green-500 text-center">-->
+<!--                --><?php //echo  $rowNewMelding['Naam'];?><!-- is schoongemaakt!-->
+<!--            </div>-->
+<!--            --><?php //if ($lastMelding['Eindtijd'] > $lastMelding['VerwachtteEindtijd']){?>
+<!--                &nbsp;&nbsp;<div class="text-red-500 text-center">-->
+<!--                    --><?php //echo  $rowNewMelding['Naam'];?><!-- is te laat schoongemaakt!-->
+<!--                </div>-->
+<!--            --><?php //}?>
+<!--        </div>-->
+<!---->
+<!---->
+<!---->
+<!--    --><?php //}
+//
+//    ?>
 
     <div class="table-responsive">
 
         <table class="table table-striped custom-table">
             <thead>
             <tr>
-
-
                 <th scope="col">Kamer</th>
-                <th scope="col">Schoonmaakster</th>
+                <th scope="col">Schoonmaak(st)er</th>
                 <th scope="col">Datum</th>
                 <th scope="col">Starttijd</th>
                 <th scope="col">Verwachtte eindtijd</th>
@@ -79,6 +96,7 @@ if ($_SESSION['role'] == 3){
             </tr>
             </thead>
             <tbody>
+
             <?php foreach (mysqli_query($conn,$sql) as $row){
                 $getUsers="select * from User where UserId = $row[UserId]";
                 $resultUsers = mysqli_query($conn,$getUsers);
@@ -90,9 +108,14 @@ if ($_SESSION['role'] == 3){
                 <tr scope="row">
 
 
-                    <td class="pl-0">
-                        <div class="d-flex ml-2 align-items-center">
-                            <?php echo $rowKamer['Naam'];?>
+                    <td >
+                        <div class="d-flex  align-items-center justify-center" >
+                            <?php if ($row['Eindtijd'] > $row['VerwachtteEindtijd']){?>
+                                <i class="fa-solid fa-circle-exclamation text-red-500 mr-2"></i>
+                            <?php }
+
+
+                            echo $rowKamer['Naam'];?>
                         </div>
                     </td>
                     <td>
@@ -131,3 +154,9 @@ if ($_SESSION['role'] == 3){
 <script src="js/main.js"></script>
 </body>
 </html>
+<script>
+    function doRefresh() {
+        $("#container").load(" #container");
+        setTimeout(doRefresh, 1000);
+    }
+</script>

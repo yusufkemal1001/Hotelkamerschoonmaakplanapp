@@ -45,5 +45,4 @@ if ($result->num_rows > 0) {
     </div>
     <?php
 }
-$conn->close();
 ?>

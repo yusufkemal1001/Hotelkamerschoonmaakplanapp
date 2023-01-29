@@ -1,5 +1,10 @@
 <?php
 include "dbcon.php";
+require_once "loginClass.php";
+if ($_SESSION['role']==3){
+    header("location:CleanerDashboard.php");
+}
+
 $sql = "select Taken.Taak, Taken_Van_Kamer.`Duur`,Taken_Van_Opdrachten.NieuwDuur,Taken_Van_Opdrachten.TaakOpdrachtId, Taken_Van_Opdrachten.Afgerond from Taken_Van_Opdrachten Inner join Taken on Taken.TaakId=Taken_Van_Opdrachten.TaakId inner join Taken_Van_Kamer on Taken_Van_Kamer.TaakId = Taken_Van_Opdrachten.TaakId where Taken_Van_Opdrachten.OpdrachtId = $_GET[Opdracht] and Taken_Van_Kamer.KamerId = $_GET[KamerId]";
 $getKamer = "select * from Kamers where KamerId = $_GET[KamerId]";
 $resultKamer = mysqli_query($conn, $getKamer);
@@ -8,7 +13,7 @@ $rowKamer = mysqli_fetch_assoc($resultKamer);
 $countTime = "SELECT SUM(Duur)
 FROM Taken_Van_Kamer where KamerId=$_GET[KamerId];";
 
-$selectDatum = "select * from Opdrachten where OpdrachtId = $_GET[Opdracht]";
+$selectDatum = "select OpdrachtId,UserId,KamerId,Starttijd,DATE_FORMAT(Datum,'%d-%m-%Y') as Datum,Eindtijd,VerwachtteEindtijd,Opmerking from Opdrachten  where OpdrachtId = $_GET[Opdracht]";
 $resultDatum = mysqli_query($conn, $selectDatum);
 $rowDatum = mysqli_fetch_assoc($resultDatum);
 
@@ -27,7 +32,24 @@ $newMinutes = $minutes - ($minutes % 5);
 $difference = "SELECT SUBTIME(Eindtijd,StartTijd) from Opdrachten where OpdrachtId = $_GET[Opdracht];";
 $differencetime = mysqli_query($conn, $difference);
 $rowTime = mysqli_fetch_assoc($differencetime);
-$differenceTimee = $rowTime['SUBTIME(Eindtijd,StartTijd)']
+$differenceTimee = $rowTime['SUBTIME(Eindtijd,StartTijd)'];
+
+$differenceVerwachtteEindtijd = "SELECT SUBTIME(Eindtijd,VerwachtteEindtijd) from Opdrachten where OpdrachtId = $_GET[Opdracht]";
+$resultVerwachtteEindtijd = mysqli_query($conn,$differenceVerwachtteEindtijd);
+$rowVerwachtteEindtijd = mysqli_fetch_assoc($resultVerwachtteEindtijd);
+$sumTime = $rowVerwachtteEindtijd['SUBTIME(Eindtijd,VerwachtteEindtijd)'];
+
+$timeParts = explode(':', $sumTime);
+$hourTime = $timeParts[0];
+$minutesTime = $timeParts[1];
+
+$datetime1 = new DateTime($rowDatum['VerwachtteEindtijd']);
+$datetime2 = new DateTime($rowDatum['Eindtijd']);
+$interval = $datetime2->diff($datetime1);
+$hourTime = $interval->format('%h');
+$minutesTime = $interval->format('%i');
+
+
 ?>
 <!doctype html>
 <html lang="en">
@@ -54,7 +76,7 @@ $differenceTimee = $rowTime['SUBTIME(Eindtijd,StartTijd)']
         </div>
         <div class="w-4/5 mt-5 flex  justify-between m-auto  " style="color: #122932;">
             <div>
-                <b>Schoonmaakster: </b><?php echo $rowUser['Naam']; ?>
+                <b>Schoonmaak(st)er: </b><?php echo $rowUser['Naam']; ?>
             </div>
             <div>
                 <b>Datum:</b> <?php echo $rowDatum['Datum']; ?>
@@ -83,6 +105,18 @@ $differenceTimee = $rowTime['SUBTIME(Eindtijd,StartTijd)']
         </div>
 
     </div>
+    <?php if ($rowDatum['Eindtijd'] > $rowDatum['VerwachtteEindtijd']){?>
+    <div class="text-red-500 text-center">
+        <?php echo  $rowKamer['Naam'];?> is
+        <?php if ($hourTime > 0 && $minutesTime>0){
+            echo $hourTime." uur en ".$minutesTime." minuten te laat schoongemaakt!";
+        }elseif ($hourTime > 0 && $minutesTime <=0) {
+            echo $hourTime." uur te laat schoongemaakt!";
+        }else{
+            echo $minutesTime." minuten te laat schoongemaakt!";
+        }?>
+    </div>
+    <?php }?>
     <div class="text-center  mt-5 mb-3">
         <i class="text-xl">Melding:</i><br>
 

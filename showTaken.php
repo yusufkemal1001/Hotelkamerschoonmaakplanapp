@@ -68,7 +68,6 @@ if ($result->num_rows > 0) {
 
             ?>
 
-
             <div class="w-3/5 rounded-md min-h-60   bg-blue-300 items-center m-auto p-5 mb-5" ">
 
             <div class="max-w-full">
@@ -118,7 +117,7 @@ if ($result->num_rows > 0) {
     </div>
     <?php
 }
-$conn->close();
+
 ?>
 
 <script>
@@ -148,7 +147,7 @@ $conn->close();
                                     </div>
                                     <div class="flex justify-between items-center">
                                         <div class="m-auto text-center w-1/5"><b>Duur(min)</b></div>
-                                        <input type="number" class="bg-white rounded-md w-2/4 m-2 " style="border: 1px solid;" value="30" name="nieuweTaak[${formCount}][duur]" required >
+                                        <input type="number" class="bg-white rounded-md w-2/4 m-2 " style="border: 1px solid;" value="30" name="nieuweTaak[${formCount}][duur]" required min="1" >
                                     </div>
 
                                     <div class="flex items-center" style="cursor: pointer; ">

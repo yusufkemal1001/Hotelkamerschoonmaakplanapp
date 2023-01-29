@@ -36,7 +36,7 @@ if (isset($_SESSION["id"])) {
     <div class=" text-center m-5 ">
         <div class="text-2xl flex justify-center">
             <div class="w-4/5  " style="margin-left: 30px;">
-                <b>Schoonmaakster Home-pagina</b>
+                <b>Schoonmaak(st)er Home-pagina</b>
             </div>
             <a href="logout.php" ">
                 <div class="text-base   " style="float: right;    height: 40px;

@@ -1,11 +1,14 @@
 <?php
 include "dbcon.php";
 require_once "loginClass.php";
+if ($_SESSION['role']==3){
+    header("location:CleanerDashboard.php");
+}
 if (!isset($_GET['KamerId'])) {
     header("location:AdminDashboard.php");
 }
 
-$sql = "select * from Opdrachten where KamerId = $_GET[KamerId] and Datum=CURDATE()";
+$sql = "select * from Opdrachten where KamerId = $_GET[KamerId] and Eindtijd is not NULL and Datum=CURDATE()";
 $result = mysqli_query($conn,$sql);
 
 if (mysqli_num_rows($result)>1){
@@ -15,9 +18,6 @@ if (mysqli_num_rows($result)>1){
 ?>
 
 
-<?php
-require_once "loginClass.php";
-?>
 <!doctype html>
 <html lang="en">
 <head>
@@ -54,7 +54,7 @@ require_once "loginClass.php";
 
     <div class="container m-auto">
         <div class="text-3xl text-center p-5">
-            Schoonmaaksters Koppelen
+            Schoonmaak(st)ers Koppelen
         </div>
         <div class="grid grid-cols-2" style="">
             <div>
