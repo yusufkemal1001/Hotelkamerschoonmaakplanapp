@@ -27,24 +27,34 @@ if ($_SESSION['role'] == 3) {
     align-items: center;"><i class="m-2 fa-solid fa-arrow-left"></i>Terug
             </div>
         </a>
-        <div style="margin-left: 100px;">
-            <?php if ($_SESSION['role'] == 1) {
-                echo "Super Beheerder Admin-Panel";
-            }
-            if ($_SESSION['role'] == 2) {
-                echo "Beheerder Admin-Panel";
-            } ?>
-        </div>
+
         <?php
-        $selectOpdracht = "select * from Opdrachten where Datum = CURDATE();";
+        $selectOpdracht = "select * from Opdrachten where Datum = CURDATE() and UserId is not Null;";
         $result = mysqli_query($conn,$selectOpdracht);
         if (mysqli_num_rows($result)>0){?>
-            <a href="testOverzicht.php">
+            <div style="margin-left: 100px;" class="">
+                <?php if ($_SESSION['role'] == 1) {
+                    echo "Super Beheerder Admin-Panel";
+                }
+                if ($_SESSION['role'] == 2) {
+                    echo "Beheerder Admin-Panel";
+                } ?>
+            </div>
+            <a href="overzicht.php">
                 <div class="text-base   " style="margin-left: 10px;float: right;height: 40px;
     display: flex;
     align-items: center;">Overzicht<i class="fa-solid fa-table-columns m-2"></i>
                 </div>
             </a>
+        <?php }else{?>
+            <div  class="ml-auto mr-auto">
+                <?php if ($_SESSION['role'] == 1) {
+                    echo "Super Beheerder Admin-Panel";
+                }
+                if ($_SESSION['role'] == 2) {
+                    echo "Beheerder Admin-Panel";
+                } ?>
+            </div>
         <?php }
         ?>
 

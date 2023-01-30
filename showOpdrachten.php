@@ -37,14 +37,11 @@ if ($result->num_rows > 0) {
         $restEnd = substr($endTime, 0, -3);
         //$currentTime = date('H:i' , $Time);
 
-        if ($currentTime > $startTime) {
+        if ($currentTime >= $startTime) {
 
 
             ?>
-            <?php  if (isset($_GET['OpdrachtDone'])){?>
-                <div class="pr-5 pb-5 pl-5 text-green-600"><?php echo $row['Naam']; ?> is schoongemaakt!
-                </div>
-            <?php }  ?>
+
              <div class="pr-5 pb-5 pl-5 text-yellow-600"><i class="fa-solid mr-2 fa-circle-exclamation"></i>U mag beginnen met '<?php echo $row['Naam']; ?>' schoonmaken!
             </div>
             <a href="takenAfvinken.php?KamerId=<?php echo $row['KamerId']; ?>&Opdracht=<?php echo $row['OpdrachtId'] ?>">
@@ -73,7 +70,7 @@ if ($result->num_rows > 0) {
 
                                     // Output the result
 
-                                    if ($difference->format('%i') > 15 || $difference->format('%h') > 0) {
+                                    if ($difference->format('%i') > 9 || $difference->format('%h') > 0) {
                                         if ($difference->format('%H') > 0) { ?>
                                             <div class="text-red-600 p-2"><i
                                                     class="fa-solid fa-circle-exclamation pr-2"></i><?php echo "U bent " . $difference->format("%H") . " uur en " . $difference->format("%i") . " minuten te laat"; ?>
@@ -99,6 +96,7 @@ if ($result->num_rows > 0) {
             </a>
         <?php } else {
             ?>
+
             <div class="w-5/6 rounded-md min-h-60   bg-gray-500 items-center m-auto p-5  mb-5" ">
 
             <div class="max-w-full">
@@ -138,11 +136,8 @@ if ($result->num_rows > 0) {
             </div>
         <?php }
     }
-} else {
-    if (isset($_GET['OpdrachtDone'])){?>
-            <div class="pr-5 pb-5 pl-5 text-green-600"><?php echo $rowRoom['Naam']; ?> is schoongemaakt!
-            </div>
-        <?php }?>
+} else {?>
+
     <i class="fa-solid fa-circle-exclamation"></i> Geen Opdrachten!
 <?php
 }

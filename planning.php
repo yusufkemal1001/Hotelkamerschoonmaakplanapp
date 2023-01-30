@@ -15,8 +15,10 @@ $result = $conn->query($sql);
 
 // Fetch the data from the query
 while ($row = $result->fetch_assoc()) {
-    echo "<div data-value='$value'  class='m-auto' id='$row[VerwachtteEindtijd]'>";?>
-    <div class="w-4/5 mt-5 rounded-md min-h-60 mr-auto ml-auto   bg-yellow-500 items-center   p-2 mb-5">
+    $intTime = strtotime($row['VerwachtteEindtijd']);
+    echo "<div data-value='$value'  class='m-auto sups' id='$intTime'>";?>
+
+    <div class="w-4/5 mt-5 rounded-md min-h-60 mr-auto ml-auto  <?php if ($row['Eindtijd'] != null){?> bg-green-400  <?php }else{?>bg-yellow-400 <?php } ?>  items-center   p-2 mb-5">
 
         <div class="max-w-full">
             <div class="w-5/5 max-h-full">
@@ -51,17 +53,19 @@ while ($row = $result->fetch_assoc()) {
 
                             // Output the result
 
-
-                            if ($difference->format('%H') > 0) { ?>
-                                <div class="text-red-600 p-2"><i
-                                        class="fa-solid fa-circle-exclamation pr-2"></i><?php echo $row['name'] . " is " . $difference->format("%H") . " uur en " . $difference->format("%i") . " minuten te laat"; ?>
-                                </div><?php
-                            } else {
-                                ?>
-                                <div class="text-red-600 p-2"><i
-                                        class="fa-solid fa-circle-exclamation pr-2"></i><?php echo $row['name'] . " is " . $difference->format("%i") . " minuten te laat"; ?>
-                                </div><?php
+                            if ($row['Eindtijd']>$row['VerwachtteEindtijd']){
+                                if ($difference->format('%H') > 0) { ?>
+                                    <div class="text-red-600 p-2 text-center"><i
+                                            class="fa-solid fa-circle-exclamation pr-2"></i><?php echo $row['name'] . " is " . $difference->format("%H") . " uur en " . $difference->format("%i") . " minuten te laat"; ?>
+                                    </div><?php
+                                } else {
+                                    ?>
+                                    <div class="text-red-600 p-2 text-center"><i
+                                            class="fa-solid fa-circle-exclamation pr-2"></i><?php echo $row['name'] . " is " . $difference->format("%i") . " minuten te laat"; ?>
+                                    </div><?php
+                                }
                             }
+
 
 
                         }

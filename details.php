@@ -1,6 +1,9 @@
 <?php
 include "dbcon.php";
 require_once "loginClass.php";
+if (!isset($_SESSION['id'])){
+    header("location:index.php");
+}
 if ($_SESSION['role']==3){
     header("location:CleanerDashboard.php");
 }

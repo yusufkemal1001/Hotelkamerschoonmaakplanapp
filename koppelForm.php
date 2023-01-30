@@ -16,10 +16,11 @@ FROM Taken_Van_Kamer where KamerId=$_GET[KamerId];";
 $Count = mysqli_query($conn, $countTime);
 $resultCount = mysqli_fetch_assoc($Count);
 $sum = $resultCount['SUM(Duur)'];
+
 $newsum = $sum - ($sum % 5);
 $newsum = $newsum - 60;
 $hours = floor($sum / 60);
-$minutes = $sum % 60;
+$minutes = $newsum % 60;
 $ms = $newsum * 60 * 1000;
 $newMinutes = $minutes - ($minutes % 5);
 

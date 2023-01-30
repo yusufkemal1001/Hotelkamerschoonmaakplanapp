@@ -1,5 +1,6 @@
 <?php
 require "loginClass.php";
+include "dbcon.php";
 //require_once "startTaakSession.php";
 if (isset($_SESSION['Login'])) {
     header("location:CleanerDashboard.php");
@@ -20,7 +21,15 @@ if (isset($_SESSION["id"])) {
     header("location: index.php");
 }
 //if ()
-?><!doctype html>
+
+if (isset($_GET['KamerId'])){
+ $sql = "select Naam from Kamers where KamerId = $_GET[KamerId]";
+ $result = mysqli_query($conn,$sql);
+ $row = mysqli_fetch_assoc($result);
+}
+?>
+
+<!doctype html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -51,6 +60,10 @@ if (isset($_SESSION["id"])) {
 
     </div>
     <div class="main text-center m-auto">
+        <?php if (isset($_GET['OpdrachtDone'])){?>
+        <div class="pr-5 pb-5 pl-5 text-green-600"><?php echo $row['Naam']; ?> is schoongemaakt!
+        </div>
+        <?php }?>
 
         <?php include "showOpdrachten.php"; ?>
     </div>
